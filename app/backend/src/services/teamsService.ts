@@ -1,8 +1,10 @@
 import TeamsModel from '../database/models/TeamsModel';
 
-const getAll = async () => {
-  const teams = await TeamsModel.findAll();
-  return { message: teams };
-};
+// export default { getAll };
 
-export default { getAll };
+export default class teamsService {
+  public getAll = async () => {
+    const teams = await TeamsModel.findAll();
+    return { message: teams };
+  };
+}
