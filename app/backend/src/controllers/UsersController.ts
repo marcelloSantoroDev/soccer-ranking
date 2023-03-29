@@ -9,8 +9,8 @@ export default class TeamsController {
   }
 
   public login = async (req: Request, res: Response) => {
-    const { email } = req.body;
-    const { type, message } = await this.service.login(email);
+    const { email, password } = req.body;
+    const { type, message } = await this.service.login(email, password);
 
     if (type) return res.status(404).json({ message });
 
