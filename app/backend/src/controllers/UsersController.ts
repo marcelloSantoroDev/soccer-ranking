@@ -19,4 +19,9 @@ export default class TeamsController {
 
     return res.status(200).json({ token });
   };
+
+  public role = async (req: Request, res: Response) => {
+    const { role } = req.body.user;
+    return res.status(200).json({ role });
+  };
 }
