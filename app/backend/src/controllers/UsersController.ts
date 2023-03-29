@@ -12,7 +12,7 @@ export default class TeamsController {
     const { email, password } = req.body;
     const { type, message } = await this.service.login(email, password);
 
-    if (type) return res.status(404).json({ message });
+    if (type) return res.status(401).json({ message });
 
     const tokenGenerator = new TokenGenerator(email);
     const token = tokenGenerator.generate();
