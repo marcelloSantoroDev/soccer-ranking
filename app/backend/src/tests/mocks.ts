@@ -63,6 +63,8 @@ const allTeamsMock = [
     "id": 16,
     "teamName": "São Paulo"
   }
-]
+];
 
-export default { allTeamsMock }
+const teamsByIdMock = {"id": 1, "teamName": "Avaí/Kindermnann"}
+
+export default { allTeamsMock, teamsByIdMock }

@@ -8,10 +8,10 @@ class App {
     this.app = express();
 
     this.config();
+    this.app.use(routes);
 
     // Não remover essa rota
     this.app.get('/', (req, res) => res.json({ ok: true }));
-    this.app.use(routes);
   }
 
   private config():void {
