@@ -16,10 +16,7 @@ const { expect } = chai;
 
 
 describe('testes para camada controller de /teams', () => {
-
     let chaiHttpResponse: Response;
-
-
 
   it('status 200 com lista de times', async function () {
     sinon
