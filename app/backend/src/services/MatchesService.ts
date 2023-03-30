@@ -25,4 +25,9 @@ export default class MatchesService {
     });
     return { message: teams };
   };
+
+  public finish = async (id: number) => {
+    await MatchesModel.update({ inProgress: false }, { where: { id } });
+    return { message: 'Finished' };
+  };
 }
