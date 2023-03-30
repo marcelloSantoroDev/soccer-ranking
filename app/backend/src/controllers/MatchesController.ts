@@ -38,4 +38,24 @@ export default class MatchesController {
       return res.status(401).json({ message: error });
     }
   };
+
+  public create = async (req: Request, res: Response) => {
+    const {
+      homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+    } = req.body;
+    try {
+      const { message } = await this.service.create({
+        homeTeamId,
+        awayTeamId,
+        homeTeamGoals,
+        awayTeamGoals,
+      });
+      return res.status(201).json(message);
+    } catch (error) {
+      return res.status(401).json({ message: error });
+    }
+  };
 }

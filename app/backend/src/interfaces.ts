@@ -11,6 +11,13 @@ export interface IUpdateMatchBody {
   awayTeamGoals: number;
 }
 
+export interface ICreateMatchBody {
+  homeTeamId: number;
+  awayTeamId: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
 export default interface ITeamsController {
   getAll(req: Request, res: Response): Response<IGetAllTeams[]>
 }

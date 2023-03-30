@@ -9,6 +9,7 @@ const matchesService = new MatchesService();
 const matchesController = new MatchesController(matchesService);
 
 router.get('/', matchesController.getAll);
+router.post('/', tokenValidator, matchesController.create);
 router.post('/:id/finish', tokenValidator, matchesController.finish);
 router.patch('/:id', tokenValidator, matchesController.update);
 

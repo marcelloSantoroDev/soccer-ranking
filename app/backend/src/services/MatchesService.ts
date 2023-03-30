@@ -1,6 +1,6 @@
 import MatchesModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
-import { IUpdateMatchBody } from '../interfaces';
+import { IUpdateMatchBody, ICreateMatchBody } from '../interfaces';
 
 export default class MatchesService {
   public getAll = async () => {
@@ -35,5 +35,21 @@ export default class MatchesService {
   public update = async ({ id, homeTeamGoals, awayTeamGoals }: IUpdateMatchBody) => {
     await MatchesModel.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
     return { message: 'updated' };
+  };
+
+  public create = async ({
+    homeTeamId,
+    awayTeamId,
+    homeTeamGoals,
+    awayTeamGoals,
+  }: ICreateMatchBody) => {
+    const newMatch = await MatchesModel.create({
+      homeTeamId,
+      awayTeamId,
+      homeTeamGoals,
+      awayTeamGoals,
+      inProgress: true,
+    });
+    return { message: newMatch };
   };
 }
