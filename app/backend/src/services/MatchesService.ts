@@ -41,8 +41,13 @@ export default class MatchesService {
     homeTeamId,
     awayTeamId,
     homeTeamGoals,
-    awayTeamGoals,
-  }: ICreateMatchBody) => {
+    awayTeamGoals }: ICreateMatchBody) => {
+    const homeTeamCheck = await TeamsModel.findOne({ where: { id: Number(homeTeamId) } });
+    const awayTeamCheck = await TeamsModel.findOne({ where: { id: Number(awayTeamId) } });
+    const teamsArray = [homeTeamCheck, awayTeamCheck];
+    if (teamsArray.some((team) => team === null)) {
+      return { type: 'NOT_FOUND', message: 'There is no team with such id!' };
+    }
     const newMatch = await MatchesModel.create({
       homeTeamId,
       awayTeamId,

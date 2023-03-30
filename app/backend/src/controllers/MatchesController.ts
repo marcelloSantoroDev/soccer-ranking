@@ -47,12 +47,13 @@ export default class MatchesController {
       awayTeamGoals,
     } = req.body;
     try {
-      const { message } = await this.service.create({
+      const { type, message } = await this.service.create({
         homeTeamId,
         awayTeamId,
         homeTeamGoals,
         awayTeamGoals,
       });
+      if (type) return res.status(404).json({ message });
       return res.status(201).json(message);
     } catch (error) {
       return res.status(401).json({ message: error });
