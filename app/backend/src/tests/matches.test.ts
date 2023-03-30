@@ -9,7 +9,7 @@ import newMatchMockWithoutId from './mocks'
 import tokenAuthMock from './mocks'
 import reqBodyLoginMock from './mocks'
 import { app } from '../app';
-
+import * as jwt from 'jsonwebtoken'
 import { Response } from 'superagent';
 import TokenGenerator from '../utils/TokenGenerator';
 
@@ -42,20 +42,19 @@ describe('testes para /matches', () => {
 
 describe('testes para rota post de /matches', async function () {
      let chaiHttpResponse: Response;
-    //     beforeEach(async function () {
-    //     chaiHttpResponse = await chai.request(app).post('/login').send(reqBodyLoginMock)
-    // });
 
-    // it('status 201 com nova partida criada', async function () {
-    //     const tokenGenerator = new TokenGenerator('admin@admin');
-    //     sinon.stub(tokenGenerator, 'generate').resolves(tokenAuthMock)
-    //     chaiHttpResponse = await chai
-    //         .request(app)
-    //         .post('/matches')
-    //         .set('Authorization', `Bearer ${tokenAuthMock}`)
-    //         .send(newMatchMockWithoutId)
+
+    it.only('status 201 com nova partida criada', async function () {
+      const secret = process.env.JWT_SECRET || 'batatinha';
+      sinon.stub(jwt, 'verify').resolves()
+      sinon.stub(MatchesModel, 'update').resolves(newMatchMock as any)
+        chaiHttpResponse = await chai
+            .request(app)
+            .post('/matches')
+            .set('Authorization', `${tokenAuthMock}`)
+            .send(newMatchMockWithoutId)
         
-    //         expect(chaiHttpResponse.status).to.be.equal(200);
-    // });
+            expect(chaiHttpResponse.status).to.be.equal(200);
+    });
 
 })
