@@ -25,7 +25,6 @@ describe('testes para /login', () => {
    
 
     expect(chaiHttpResponse.status).to.be.equal(400)
-    // expect(chaiHttpResponse.body).to.be.deep.equal(badRequestLoginMock)
     
   });
   it('status 401 para email não autorizado', async function () {

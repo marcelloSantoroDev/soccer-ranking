@@ -34,7 +34,7 @@ export default class MatchesService {
 
   public update = async ({ id, homeTeamGoals, awayTeamGoals }: IUpdateMatchBody) => {
     await MatchesModel.update({ homeTeamGoals, awayTeamGoals }, { where: { id } });
-    return { message: 'updated' };
+    return { message: 'Match updated' };
   };
 
   public create = async ({
