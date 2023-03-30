@@ -27,4 +27,15 @@ export default class MatchesController {
       return res.status(401).json({ message: error });
     }
   };
+
+  public update = async (req: Request, res: Response) => {
+    const id = Number(req.params.id);
+    const { homeTeamGoals, awayTeamGoals } = req.body;
+    try {
+      const { message } = await this.service.update({ id, homeTeamGoals, awayTeamGoals });
+      return res.status(200).json({ message });
+    } catch (error) {
+      return res.status(401).json({ message: error });
+    }
+  };
 }

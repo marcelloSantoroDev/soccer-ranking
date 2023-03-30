@@ -5,6 +5,12 @@ export interface IGetAllTeams {
   teamName: string;
 }
 
+export interface IUpdateMatchBody {
+  id: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
 export default interface ITeamsController {
   getAll(req: Request, res: Response): Response<IGetAllTeams[]>
 }
