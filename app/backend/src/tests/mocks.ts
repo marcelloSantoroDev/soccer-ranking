@@ -67,4 +67,28 @@ const allTeamsMock = [
 
 const teamsByIdMock = {"id": 1, "teamName": "Avaí/Kindermnann"}
 
-export default { allTeamsMock, teamsByIdMock }
+const reqBodyLoginMock = {
+  "email": "admin@admin.com",
+  "password": "secret_admin"
+};
+
+const tokenMock = {
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjgwMTkzNzcxLCJleHAiOjE2ODA3OTg1NzF9.Bjlng4EBVXA6SBoS0eChSDljr_401yH_tfEDcRvu_L8"
+}
+
+const badRequestLoginMock = {
+  "message": "All fields must be filled"
+}
+
+const unaithorizedLoginMock = {
+  "message": "Invalid email or password"
+}
+
+export default {
+  allTeamsMock,
+  teamsByIdMock,
+  reqBodyLoginMock,
+  tokenMock,
+  badRequestLoginMock,
+  unaithorizedLoginMock
+}
