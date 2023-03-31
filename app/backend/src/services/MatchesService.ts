@@ -58,25 +58,100 @@ export default class MatchesService {
     return { message: newMatch };
   };
 
-  public calculateVictories = (matches: IMatch[]) => {
-    const sum = matches.reduce((acc, curr) => {
-      if (curr.homeTeamGoals > curr.awayTeamGoals) acc += 1;
-      return acc;
-    }, 0);
+  public getMatches = async (id: number) => {
+    const homeMatches = await MatchesModel.findAll({ where: { homeTeamId: id } });
+    const finishedHomeMatches = homeMatches.filter((match) => match.inProgress === false);
+    const awayMatches = await MatchesModel.findAll({ where: { awayTeamId: id } });
+    const finishedAwayMatches = awayMatches.filter((match) => match.inProgress === false);
+    return { finishedHomeMatches, finishedAwayMatches };
   };
 
-  public getLeaderboard = async () =>
-  //   // const teamsIds = teams.map((team) => team.id);
-  //   const teams = await TeamsModel.findAll();
-  //   const { message } = await this.getInProgress('false');
-  //   teams.map((team) => {
-  //     const matchesByTeam = message.map((match) => +match.homeTeamId === team.id);
-  //     const sums = matchesByTeam.reduce((acc, curr) => {
-  //       let ac = acc;
-  //       ac += curr.;
-  //       return ac;
-  //     });
-  //   });
-    ({ message: '' })
-  ;
+  public totalPoints = async (id: number) => {
+    const matches = await this.getMatches(id);
+    const homePoints = matches.finishedHomeMatches
+      .reduce((accumulator, curr) => {
+        let acc = accumulator;
+        if (curr.homeTeamGoals > curr.awayTeamGoals) acc += 3;
+        if (curr.homeTeamGoals < curr.awayTeamGoals) acc += 0;
+        acc += 1;
+        return acc;
+      }, 0);
+    const awayPoints = matches.finishedAwayMatches
+      .reduce((accumulator, curr) => {
+        let acc = accumulator;
+        if (curr.awayTeamGoals > curr.homeTeamGoals) acc += 3;
+        if (curr.awayTeamGoals < curr.homeTeamGoals) acc += 0;
+        acc += 1;
+        return acc;
+      }, 0);
+    return homePoints + awayPoints;
+  };
+
+  public totalGames = async (id: number) => {
+    const matches = this.getMatches(id);
+    const totalHomeMatches = (await matches).finishedHomeMatches.length;
+    const totalAwayMatches = (await matches).finishedAwayMatches.length;
+    return { totalHomeMatches, totalAwayMatches };
+  };
+
+  public totalVictories = async (id: number) => {
+    const matches = await this.getMatches(id);
+    const homeVictories = matches.finishedHomeMatches
+      .reduce((accumulator, curr) => {
+        let acc = accumulator;
+        if (curr.homeTeamGoals > curr.awayTeamGoals) acc += 1;
+        return acc;
+      }, 0);
+    const awayVictories = matches.finishedAwayMatches
+      .reduce((accumulator, curr) => {
+        let acc = accumulator;
+        if (curr.awayTeamGoals > curr.homeTeamGoals) acc += 1;
+        return acc;
+      }, 0);
+    return homeVictories + awayVictories;
+  };
+
+  public totalDraws = (matches: IMatch[]) => {
+    const sum = matches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      if (curr.homeTeamGoals === curr.awayTeamGoals) {
+        acc += 1;
+      }
+      return acc;
+    }, 0);
+    return sum;
+  };
+
+  public totalLosses = async (id: number) => {
+    const matches = await this.getMatches(id);
+    const homeLosses = matches.finishedHomeMatches
+      .reduce((accumulator, curr) => {
+        let acc = accumulator;
+        if (curr.homeTeamGoals < curr.awayTeamGoals) acc += 1;
+        return acc;
+      }, 0);
+    const awayLosses = matches.finishedAwayMatches
+      .reduce((accumulator, curr) => {
+        let acc = accumulator;
+        if (curr.awayTeamGoals < curr.homeTeamGoals) acc += 1;
+        return acc;
+      }, 0);
+    return homeLosses + awayLosses;
+  };
+
+  public totalGoals = async (id: number, type: string) => {
+    const matches = await this.getMatches(id);
+    const reducer = (accumulator: number, curr: MatchesModel) => {
+      let acc = accumulator;
+      if (type === 'favor') {
+        acc += Number(curr.homeTeamGoals);
+      } else {
+        acc += Number(curr.awayTeamGoals);
+      }
+      return acc;
+    };
+    const homeGoals = matches.finishedHomeMatches.reduce(reducer, 0);
+    const awayGoals = matches.finishedAwayMatches.reduce(reducer, 0);
+    return homeGoals + awayGoals;
+  };
 }
