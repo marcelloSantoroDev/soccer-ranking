@@ -1,6 +1,6 @@
 import MatchesModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
-import { IUpdateMatchBody, ICreateMatchBody } from '../interfaces';
+import { IUpdateMatchBody, ICreateMatchBody, IMatch } from '../interfaces';
 
 export default class MatchesService {
   public getAll = async () => {
@@ -57,4 +57,26 @@ export default class MatchesService {
     });
     return { message: newMatch };
   };
+
+  public calculateVictories = (matches: IMatch[]) => {
+    const sum = matches.reduce((acc, curr) => {
+      if (curr.homeTeamGoals > curr.awayTeamGoals) acc += 1;
+      return acc;
+    }, 0);
+  };
+
+  public getLeaderboard = async () =>
+  //   // const teamsIds = teams.map((team) => team.id);
+  //   const teams = await TeamsModel.findAll();
+  //   const { message } = await this.getInProgress('false');
+  //   teams.map((team) => {
+  //     const matchesByTeam = message.map((match) => +match.homeTeamId === team.id);
+  //     const sums = matchesByTeam.reduce((acc, curr) => {
+  //       let ac = acc;
+  //       ac += curr.;
+  //       return ac;
+  //     });
+  //   });
+    ({ message: '' })
+  ;
 }
