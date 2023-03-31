@@ -1,6 +1,6 @@
 import MatchesModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
-import { IUpdateMatchBody, ICreateMatchBody, IMatch } from '../interfaces';
+import { IUpdateMatchBody, ICreateMatchBody } from '../interfaces';
 
 export default class MatchesService {
   public getAll = async () => {
@@ -111,15 +111,16 @@ export default class MatchesService {
     return homeVictories + awayVictories;
   };
 
-  public totalDraws = (matches: IMatch[]) => {
-    const sum = matches.reduce((accumulator, curr) => {
+  public totalDraws = async (id: number) => {
+    const matches = await this.getMatches(id);
+    const draws = matches.finishedHomeMatches.reduce((accumulator: number, curr) => {
       let acc = accumulator;
       if (curr.homeTeamGoals === curr.awayTeamGoals) {
         acc += 1;
       }
       return acc;
     }, 0);
-    return sum;
+    return draws;
   };
 
   public totalLosses = async (id: number) => {
@@ -165,6 +166,7 @@ export default class MatchesService {
         totalPoints: await this.totalPoints(id),
         totalGames: await this.totalGames(id),
         totalVictories: await this.totalVictories(id),
+        totalDraws: await this.totalDraws(id),
         totalLosses: await this.totalLosses(id),
         goalsFavor: await this.totalGoals(id, 'favor'),
         goalsOwn: await this.totalGoals(id, 'against'),
@@ -173,3 +175,5 @@ export default class MatchesService {
     return { message: calculate };
   };
 }
+
+// preciso refatorar esse service. muitos acessos ao db
