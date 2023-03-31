@@ -1,4 +1,4 @@
-// import { Request, Response } from 'express';
+import { Request, Response } from 'express';
 import MatchesService from '../services/MatchesService';
 
 export default class MatchesController {
@@ -7,8 +7,8 @@ export default class MatchesController {
     this.service = service;
   }
 
-//   public getAll = async (req: Request, res: Response) => {
-//     const { message } = await this.service.getLeaderboard();
-//     return res.status(200).json(message);
-//   };
+  public getLeaderBoard = async (_req: Request, res: Response) => {
+    const { message } = await this.service.getLeaderboard();
+    return res.status(200).json(message);
+  };
 }

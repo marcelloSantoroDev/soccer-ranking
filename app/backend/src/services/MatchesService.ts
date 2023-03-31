@@ -91,7 +91,7 @@ export default class MatchesService {
     const matches = this.getMatches(id);
     const totalHomeMatches = (await matches).finishedHomeMatches.length;
     const totalAwayMatches = (await matches).finishedAwayMatches.length;
-    return { totalHomeMatches, totalAwayMatches };
+    return totalHomeMatches + totalAwayMatches;
   };
 
   public totalVictories = async (id: number) => {
@@ -153,5 +153,23 @@ export default class MatchesService {
     const homeGoals = matches.finishedHomeMatches.reduce(reducer, 0);
     const awayGoals = matches.finishedAwayMatches.reduce(reducer, 0);
     return homeGoals + awayGoals;
+  };
+
+  public getLeaderboard = async () => {
+    const teams = await TeamsModel.findAll();
+    const ids = teams.map((team) => team.id);
+    const calculate = await Promise.all(ids.map(async (id) => {
+      const team = await TeamsModel.findOne({ where: { id } }) || { teamName: 'Unknown' };
+      return {
+        name: team.teamName,
+        totalPoints: await this.totalPoints(id),
+        totalGames: await this.totalGames(id),
+        totalVictories: await this.totalVictories(id),
+        totalLosses: await this.totalLosses(id),
+        goalsFavor: await this.totalGoals(id, 'favor'),
+        goalsOwn: await this.totalGoals(id, 'against'),
+      };
+    }));
+    return { message: calculate };
   };
 }

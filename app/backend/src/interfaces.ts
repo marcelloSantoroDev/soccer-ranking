@@ -33,6 +33,11 @@ export interface IMatch {
   }
 }
 
+export interface IGetMatches {
+  finishedHomeMatches: Promise<IMatch[]>;
+  finishedAwayMatches: Promise<IMatch[]>
+}
+
 export default interface ITeamsController {
   getAll(req: Request, res: Response): Response<IGetAllTeams[]>
 }

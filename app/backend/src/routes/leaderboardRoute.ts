@@ -1,8 +1,13 @@
 import * as express from 'express';
 // import tokenValidator from '../middlewares/TokenValidator';
+import LeadeboardController from '../controllers/leaderboardController';
+import MatchesService from '../services/MatchesService';
 
 const router = express.Router();
 
-router.post('/home');
+const matchesService = new MatchesService();
+const leaderboardController = new LeadeboardController(matchesService);
+
+router.get('/home', leaderboardController.getLeaderBoard);
 
 export default router;
