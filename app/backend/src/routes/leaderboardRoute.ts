@@ -1,14 +1,13 @@
 import * as express from 'express';
-// import tokenValidator from '../middlewares/TokenValidator';
 import LeadeboardController from '../controllers/leaderboardController';
-import MatchesService from '../services/MatchesService';
+import LeaderboardService from '../services/LeaderboardService';
 
 const router = express.Router();
 
-const matchesService = new MatchesService();
-const leaderboardController = new LeadeboardController(matchesService);
+const leaderboardService = new LeaderboardService();
+const leaderboardController = new LeadeboardController(leaderboardService);
 
-router.get('/home', leaderboardController.getHomeLeaderBoard);
-router.get('/away', leaderboardController.getAwayLeaderBoard);
+router.get('/home', leaderboardController.getHomeLeaderboard);
+router.get('/away', leaderboardController.getAwayLeaderboard);
 
 export default router;
