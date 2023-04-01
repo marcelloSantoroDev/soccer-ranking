@@ -124,9 +124,11 @@ export default class MatchesService {
     return { homeVictories, awayVictories };
   };
 
-  public totalDraws = async (id: number) => {
+  public totalDraws = async (id: number, where: string) => {
     const matches = await this.getMatches(id);
-    const draws = matches.finishedHomeMatches.reduce((accumulator: number, curr) => {
+    const drawMatches = where === 'home' ? matches
+      .finishedHomeMatches : matches.finishedAwayMatches;
+    const draws = drawMatches.reduce((accumulator: number, curr) => {
       let acc = accumulator;
       if (curr.homeTeamGoals === curr.awayTeamGoals) {
         acc += 1;
@@ -153,20 +155,25 @@ export default class MatchesService {
     return { homeLosses, awayLosses };
   };
 
-  public totalGoals = async (id: number, type: string) => {
+  public totalGoals = async (id: number, type: string, where: string) => {
     const matches = await this.getMatches(id);
-    const reducer = (accumulator: number, curr: MatchesModel) => {
-      let acc = accumulator;
-      if (type === 'favor') {
-        acc += Number(curr.homeTeamGoals);
-      } else {
-        acc += Number(curr.awayTeamGoals);
-      }
-      return acc;
-    };
-    const homeGoals = matches.finishedHomeMatches.reduce(reducer, 0);
-    const awayGoals = matches.finishedAwayMatches.reduce(reducer, 0);
-    return { homeGoals, awayGoals };
+    if (type === 'favor' && where === 'home') {
+      return matches.finishedHomeMatches
+        .reduce((accumulator, curr) => accumulator + Number(curr.homeTeamGoals), 0);
+    }
+
+    if (type === 'against' && where === 'home') {
+      return matches.finishedHomeMatches
+        .reduce((accumulator, curr) => accumulator + Number(curr.awayTeamGoals), 0);
+    }
+
+    if (type === 'favor' && where === 'away') {
+      return matches.finishedAwayMatches
+        .reduce((accumulator, curr) => accumulator + Number(curr.awayTeamGoals), 0);
+    }
+
+    return matches.finishedAwayMatches
+      .reduce((accumulator, curr) => accumulator + Number(curr.homeTeamGoals), 0);
   };
 
   public getTeamsIds = async () => {
@@ -180,17 +187,17 @@ export default class MatchesService {
     const calculate = await Promise.all(ids.map(async (id) => {
       const team = await TeamsModel.findOne({ where: { id } }) || { teamName: 'Unknown' };
       const balance = (await this
-        .totalGoals(id, 'favor')).homeGoals - (await this.totalGoals(id, 'against')).homeGoals;
+        .totalGoals(id, 'favor', 'home')) - (await this.totalGoals(id, 'against', 'home'));
       return { name: team.teamName,
         totalPoints: (await this.totalPoints(id)).homePoints,
         totalGames: (await this.totalGames(id)).totalHomeMatches,
         totalVictories: (await this.totalVictories(id)).homeVictories,
-        totalDraws: await this.totalDraws(id),
+        totalDraws: await this.totalDraws(id, 'home'),
         totalLosses: (await this.totalLosses(id)).homeLosses,
-        goalsFavor: (await this.totalGoals(id, 'favor')).homeGoals,
-        goalsOwn: (await this.totalGoals(id, 'against')).homeGoals,
+        goalsFavor: (await this.totalGoals(id, 'favor', 'home')),
+        goalsOwn: (await this.totalGoals(id, 'against', 'home')),
         goalsBalance: balance,
-        efficiency: Number(((await (await this.totalPoints(id)).homePoints / ((await this
+        efficiency: Number((((await this.totalPoints(id)).homePoints / ((await this
           .totalGames(id)).totalHomeMatches * 3)) * 100).toFixed(2)) };
     }));
     return { message: this.sortedLeaderboard(calculate) };
@@ -201,17 +208,17 @@ export default class MatchesService {
     const calculate = await Promise.all(ids.map(async (id) => {
       const team = await TeamsModel.findOne({ where: { id } }) || { teamName: 'Unknown' };
       const balance = (await this
-        .totalGoals(id, 'favor')).awayGoals - (await this.totalGoals(id, 'against')).awayGoals;
+        .totalGoals(id, 'favor', 'away')) - (await this.totalGoals(id, 'against', 'away'));
       return { name: team.teamName,
         totalPoints: (await this.totalPoints(id)).awayPoints,
         totalGames: (await this.totalGames(id)).totalAwayMatches,
         totalVictories: (await this.totalVictories(id)).awayVictories,
-        totalDraws: await this.totalDraws(id),
+        totalDraws: await this.totalDraws(id, 'away'),
         totalLosses: (await this.totalLosses(id)).awayLosses,
-        goalsFavor: (await this.totalGoals(id, 'favor')).awayGoals,
-        goalsOwn: (await this.totalGoals(id, 'against')).awayGoals,
+        goalsFavor: (await this.totalGoals(id, 'favor', 'away')),
+        goalsOwn: (await this.totalGoals(id, 'against', 'away')),
         goalsBalance: balance,
-        efficiency: Number(((await (await this.totalPoints(id)).awayPoints / ((await this
+        efficiency: Number((((await this.totalPoints(id)).awayPoints / ((await this
           .totalGames(id)).totalAwayMatches * 3)) * 100).toFixed(2)) };
     }));
     return { message: this.sortedLeaderboard(calculate) };
