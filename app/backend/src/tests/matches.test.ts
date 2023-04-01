@@ -8,6 +8,7 @@ import newMatchMock from './mocks'
 import newMatchMockWithoutId from './mocks'
 import tokenAuthMock from './mocks'
 import reqBodyLoginMock from './mocks'
+import leaderboardMock from './mocks'
 import { app } from '../app';
 import * as jwt from 'jsonwebtoken'
 import { Response } from 'superagent';
@@ -18,7 +19,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 
-describe('testes para /matches', () => {
+describe('testes para /matches', function () {
     let chaiHttpResponse: Response;
 
   it('status 200 com lista de partidas', async function () {
@@ -40,11 +41,21 @@ describe('testes para /matches', () => {
   });
 });
 
+describe('testes para rota /leaderboard', function () {
+  let chaiHttpResponse: Response;
+it('status 200 com placar completo - sem efficiency', async function () {
+  chaiHttpResponse = await chai
+        .request(app)
+        .get('/leaderboard/home');
+
+        expect(chaiHttpResponse.status).to.be.equal(200);})
+})
+
 describe('testes para rota post de /matches', async function () {
      let chaiHttpResponse: Response;
 
 
-    it.only('status 201 com nova partida criada', async function () {
+    it('status 201 com nova partida criada', async function () {
       const secret = process.env.JWT_SECRET || 'batatinha';
       sinon.stub(jwt, 'verify').resolves()
       sinon.stub(MatchesModel, 'update').resolves(newMatchMock as any)

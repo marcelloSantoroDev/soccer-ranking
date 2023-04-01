@@ -7,8 +7,8 @@ export default class MatchesController {
     this.service = service;
   }
 
-  public getLeaderBoard = async (_req: Request, res: Response) => {
-    const { message } = await this.service.getLeaderboard();
+  public getHomeLeaderBoard = async (_req: Request, res: Response) => {
+    const { message } = await this.service.getHomeLeaderboard();
     return res.status(200).json(message);
   };
 }

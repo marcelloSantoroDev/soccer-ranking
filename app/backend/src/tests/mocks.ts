@@ -776,6 +776,169 @@ const newMatchMockWithoutId = {
 
 const tokenAuthMock = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjgwMTkzNzcxLCJleHAiOjE2ODA3OTg1NzF9.Bjlng4EBVXA6SBoS0eChSDljr_401yH_tfEDcRvu_L8'
 
+const leaderboardMock = [
+  {
+    "name": "Avaí/Kindermann",
+    "totalPoints": 8,
+    "totalGames": 5,
+    "totalVictories": 1,
+    "totalDraws": 1,
+    "totalLosses": 3,
+    "goalsFavor": 4,
+    "goalsOwn": 8
+  },
+  {
+    "name": "Bahia",
+    "totalPoints": 5,
+    "totalGames": 5,
+    "totalVictories": 0,
+    "totalDraws": 0,
+    "totalLosses": 3,
+    "goalsFavor": 2,
+    "goalsOwn": 6
+  },
+  {
+    "name": "Botafogo",
+    "totalPoints": 8,
+    "totalGames": 5,
+    "totalVictories": 1,
+    "totalDraws": 1,
+    "totalLosses": 3,
+    "goalsFavor": 6,
+    "goalsOwn": 5
+  },
+  {
+    "name": "Corinthians",
+    "totalPoints": 17,
+    "totalGames": 5,
+    "totalVictories": 4,
+    "totalDraws": 0,
+    "totalLosses": 1,
+    "goalsFavor": 8,
+    "goalsOwn": 7
+  },
+  {
+    "name": "Cruzeiro",
+    "totalPoints": 8,
+    "totalGames": 5,
+    "totalVictories": 1,
+    "totalDraws": 1,
+    "totalLosses": 3,
+    "goalsFavor": 9,
+    "goalsOwn": 9
+  },
+  {
+    "name": "Ferroviária",
+    "totalPoints": 11,
+    "totalGames": 5,
+    "totalVictories": 2,
+    "totalDraws": 0,
+    "totalLosses": 2,
+    "goalsFavor": 8,
+    "goalsOwn": 6
+  },
+  {
+    "name": "Flamengo",
+    "totalPoints": 8,
+    "totalGames": 5,
+    "totalVictories": 1,
+    "totalDraws": 1,
+    "totalLosses": 2,
+    "goalsFavor": 4,
+    "goalsOwn": 3
+  },
+  {
+    "name": "Grêmio",
+    "totalPoints": 14,
+    "totalGames": 5,
+    "totalVictories": 3,
+    "totalDraws": 0,
+    "totalLosses": 1,
+    "goalsFavor": 11,
+    "goalsOwn": 6
+  },
+  {
+    "name": "Internacional",
+    "totalPoints": 14,
+    "totalGames": 5,
+    "totalVictories": 3,
+    "totalDraws": 1,
+    "totalLosses": 1,
+    "goalsFavor": 4,
+    "goalsOwn": 9
+  },
+  {
+    "name": "Minas Brasília",
+    "totalPoints": 5,
+    "totalGames": 5,
+    "totalVictories": 0,
+    "totalDraws": 1,
+    "totalLosses": 3,
+    "goalsFavor": 6,
+    "goalsOwn": 7
+  },
+  {
+    "name": "Napoli-SC",
+    "totalPoints": 5,
+    "totalGames": 5,
+    "totalVictories": 0,
+    "totalDraws": 2,
+    "totalLosses": 3,
+    "goalsFavor": 12,
+    "goalsOwn": 3
+  },
+  {
+    "name": "Palmeiras",
+    "totalPoints": 17,
+    "totalGames": 5,
+    "totalVictories": 4,
+    "totalDraws": 1,
+    "totalLosses": 0,
+    "goalsFavor": 10,
+    "goalsOwn": 12
+  },
+  {
+    "name": "Real Brasília",
+    "totalPoints": 14,
+    "totalGames": 5,
+    "totalVictories": 3,
+    "totalDraws": 0,
+    "totalLosses": 1,
+    "goalsFavor": 6,
+    "goalsOwn": 3
+  },
+  {
+    "name": "Santos",
+    "totalPoints": 14,
+    "totalGames": 5,
+    "totalVictories": 3,
+    "totalDraws": 0,
+    "totalLosses": 0,
+    "goalsFavor": 12,
+    "goalsOwn": 6
+  },
+  {
+    "name": "São José-SP",
+    "totalPoints": 11,
+    "totalGames": 5,
+    "totalVictories": 2,
+    "totalDraws": 0,
+    "totalLosses": 3,
+    "goalsFavor": 3,
+    "goalsOwn": 8
+  },
+  {
+    "name": "São Paulo",
+    "totalPoints": 11,
+    "totalGames": 5,
+    "totalVictories": 2,
+    "totalDraws": 1,
+    "totalLosses": 1,
+    "goalsFavor": 9,
+    "goalsOwn": 6
+  }
+]
+
 export default {
   allTeamsMock,
   teamsByIdMock,
@@ -786,5 +949,6 @@ export default {
   allMatchesMock,
   newMatchMock,
   newMatchMockWithoutId,
-  tokenAuthMock
+  tokenAuthMock,
+  leaderboardMock
 }

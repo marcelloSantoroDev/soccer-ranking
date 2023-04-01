@@ -16,7 +16,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 
-describe('testes para /login', () => {
+describe('testes para /login', function () {
     let chaiHttpResponse: Response;
 
   it('status 400 falta de campos', async function () {

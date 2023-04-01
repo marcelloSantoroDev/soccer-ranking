@@ -15,7 +15,7 @@ chai.use(chaiHttp);
 const { expect } = chai;
 
 
-describe('testes para camada controller de /teams', () => {
+describe('testes para camada controller de /teams', function () {
     let chaiHttpResponse: Response;
 
   it('status 200 com lista de times', async function () {
