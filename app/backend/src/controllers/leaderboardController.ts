@@ -11,4 +11,9 @@ export default class MatchesController {
     const { message } = await this.service.getHomeLeaderboard();
     return res.status(200).json(message);
   };
+
+  public getAwayLeaderBoard = async (_req: Request, res: Response) => {
+    const { message } = await this.service.getAwayLeaderboard();
+    return res.status(200).json(message);
+  };
 }

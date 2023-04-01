@@ -9,6 +9,6 @@ const matchesService = new MatchesService();
 const leaderboardController = new LeadeboardController(matchesService);
 
 router.get('/home', leaderboardController.getHomeLeaderBoard);
-// router.get('/away', leaderboardController.getLeaderBoard);
+router.get('/away', leaderboardController.getAwayLeaderBoard);
 
 export default router;
