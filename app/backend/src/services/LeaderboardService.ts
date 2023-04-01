@@ -13,47 +13,44 @@ export default class LeaderboardService {
 
   public totalPoints = async (id: number) => {
     const matches = await this.getMatches(id);
-    const homePoints = matches.finishedHomeMatches
-      .reduce((accumulator, curr) => {
-        let acc = accumulator;
-        if (curr.homeTeamGoals > curr.awayTeamGoals) acc += 3;
-        if (curr.homeTeamGoals < curr.awayTeamGoals) acc += 0;
-        if (curr.homeTeamGoals === curr.awayTeamGoals) acc += 1;
-        return acc;
-      }, 0);
-    const awayPoints = matches.finishedAwayMatches
-      .reduce((accumulator, curr) => {
-        let acc = accumulator;
-        if (curr.awayTeamGoals > curr.homeTeamGoals) acc += 3;
-        if (curr.awayTeamGoals < curr.homeTeamGoals) acc += 0;
-        if (curr.awayTeamGoals === curr.homeTeamGoals) acc += 1;
-        return acc;
-      }, 0);
-    return { homePoints, awayPoints };
+    const homePoints = matches.finishedHomeMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      if (curr.homeTeamGoals > curr.awayTeamGoals) acc += 3;
+      if (curr.homeTeamGoals < curr.awayTeamGoals) acc += 0;
+      if (curr.homeTeamGoals === curr.awayTeamGoals) acc += 1;
+      return acc;
+    }, 0);
+    const awayPoints = matches.finishedAwayMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      if (curr.awayTeamGoals > curr.homeTeamGoals) acc += 3;
+      if (curr.awayTeamGoals < curr.homeTeamGoals) acc += 0;
+      if (curr.awayTeamGoals === curr.homeTeamGoals) acc += 1;
+      return acc;
+    }, 0);
+    return { homePoints, awayPoints, allPoints: homePoints + awayPoints };
   };
 
   public totalGames = async (id: number) => {
     const matches = this.getMatches(id);
     const totalHomeMatches = (await matches).finishedHomeMatches.length;
     const totalAwayMatches = (await matches).finishedAwayMatches.length;
-    return { totalHomeMatches, totalAwayMatches };
+    return {
+      totalHomeMatches, totalAwayMatches, totalMatches: totalHomeMatches + totalAwayMatches };
   };
 
   public totalVictories = async (id: number) => {
     const matches = await this.getMatches(id);
-    const homeVictories = matches.finishedHomeMatches
-      .reduce((accumulator, curr) => {
-        let acc = accumulator;
-        if (curr.homeTeamGoals > curr.awayTeamGoals) acc += 1;
-        return acc;
-      }, 0);
-    const awayVictories = matches.finishedAwayMatches
-      .reduce((accumulator, curr) => {
-        let acc = accumulator;
-        if (curr.awayTeamGoals > curr.homeTeamGoals) acc += 1;
-        return acc;
-      }, 0);
-    return { homeVictories, awayVictories };
+    const homeVictories = matches.finishedHomeMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      if (curr.homeTeamGoals > curr.awayTeamGoals) acc += 1;
+      return acc;
+    }, 0);
+    const awayVictories = matches.finishedAwayMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      if (curr.awayTeamGoals > curr.homeTeamGoals) acc += 1;
+      return acc;
+    }, 0);
+    return { homeVictories, awayVictories, totalVictories: homeVictories + awayVictories };
   };
 
   public totalDraws = async (id: number, where: string) => {
@@ -70,21 +67,34 @@ export default class LeaderboardService {
     return draws;
   };
 
+  public totalGeneralDraws = async (id: number) => {
+    const matches = await this.getMatches(id);
+    const homeDraws = matches.finishedHomeMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      if (curr.homeTeamGoals === curr.awayTeamGoals) acc += 1;
+      return acc;
+    }, 0);
+    const awayDraws = matches.finishedAwayMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      if (curr.awayTeamGoals === curr.homeTeamGoals) acc += 1;
+      return acc;
+    }, 0);
+    return homeDraws + awayDraws;
+  };
+
   public totalLosses = async (id: number) => {
     const matches = await this.getMatches(id);
-    const homeLosses = matches.finishedHomeMatches
-      .reduce((accumulator, curr) => {
-        let acc = accumulator;
-        if (curr.homeTeamGoals < curr.awayTeamGoals) acc += 1;
-        return acc;
-      }, 0);
-    const awayLosses = matches.finishedAwayMatches
-      .reduce((accumulator, curr) => {
-        let acc = accumulator;
-        if (curr.awayTeamGoals < curr.homeTeamGoals) acc += 1;
-        return acc;
-      }, 0);
-    return { homeLosses, awayLosses };
+    const homeLosses = matches.finishedHomeMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      if (curr.homeTeamGoals < curr.awayTeamGoals) acc += 1;
+      return acc;
+    }, 0);
+    const awayLosses = matches.finishedAwayMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      if (curr.awayTeamGoals < curr.homeTeamGoals) acc += 1;
+      return acc;
+    }, 0);
+    return { homeLosses, awayLosses, totalLosses: homeLosses + awayLosses };
   };
 
   public totalGoals = async (id: number, type: string, where: string) => {
@@ -108,10 +118,41 @@ export default class LeaderboardService {
       .reduce((accumulator, curr) => accumulator + Number(curr.homeTeamGoals), 0);
   };
 
+  public totalGoalsFavor = async (id: number) => {
+    const matches = await this.getMatches(id);
+    const homeGoals = matches.finishedHomeMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      acc += Number(curr.homeTeamGoals);
+      return acc;
+    }, 0);
+    const awayGoals = matches.finishedAwayMatches.reduce((accumulator, curr) => {
+      let acc = accumulator;
+      acc += Number(curr.awayTeamGoals);
+      return acc;
+    }, 0);
+
+    return homeGoals + awayGoals;
+  };
+
+  public totalGoalsAgainst = async (id: number) => {
+    const matches = await this.getMatches(id);
+    const homeGoalsAgainst = matches.finishedHomeMatches.reduce((accumulator, curr) => {
+      let acc2 = accumulator;
+      acc2 += Number(curr.awayTeamGoals);
+      return acc2;
+    }, 0);
+    const awayGoalsAgainst = matches.finishedAwayMatches.reduce((accumulator, curr) => {
+      let acc2 = accumulator;
+      acc2 += Number(curr.homeTeamGoals);
+      return acc2;
+    }, 0);
+
+    return homeGoalsAgainst + awayGoalsAgainst;
+  };
+
   public getTeamsIds = async () => {
     const teams = await TeamsModel.findAll();
-    const ids = teams.map((team) => team.id);
-    return ids;
+    return teams.map((team) => team.id);
   };
 
   public getHomeLeaderboard = async () => {
@@ -174,5 +215,25 @@ export default class LeaderboardService {
     });
 
     return sort;
+  };
+
+  public getGeneralLeaderboard = async () => {
+    const ids = await this.getTeamsIds();
+    const calculate = await Promise.all(ids.map(async (id) => {
+      const team = await TeamsModel.findOne({ where: { id } }) || { teamName: 'Unknown' };
+      return { name: team.teamName,
+        totalPoints: (await this.totalPoints(id)).allPoints,
+        totalGames: (await this.totalGames(id)).totalMatches,
+        totalVictories: (await this.totalVictories(id)).totalVictories,
+        totalDraws: await this.totalGeneralDraws(id),
+        totalLosses: (await this.totalLosses(id)).totalLosses,
+        goalsFavor: await this.totalGoalsFavor(id),
+        goalsOwn: await this.totalGoalsAgainst(id),
+        goalsBalance: await this.totalGoalsFavor(id) - await this.totalGoalsAgainst(id),
+        efficiency: Number((((await this.totalPoints(id)).allPoints / ((await this
+          .totalGames(id)).totalMatches * 3)) * 100).toFixed(2)),
+      };
+    }));
+    return { message: this.sortedLeaderboard(calculate) };
   };
 }
