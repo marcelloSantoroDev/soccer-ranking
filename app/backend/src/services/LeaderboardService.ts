@@ -1,8 +1,8 @@
 import MatchesModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
-import { ILeaderBoard } from '../interfaces';
+import { ILeaderBoard, ILeaderboardService } from '../interfaces';
 
-export default class LeaderboardService {
+export default class LeaderboardService implements ILeaderboardService {
   public getMatches = async (id: number) => {
     const homeMatches = await MatchesModel.findAll({ where: { homeTeamId: id } });
     const finishedHomeMatches = homeMatches.filter((match) => match.inProgress === false);

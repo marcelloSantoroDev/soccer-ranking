@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import LeaderboardService from '../services/LeaderboardService';
+import { ILeaderboardService } from '../interfaces';
 
 interface ILeaderboardBody {
   'name': string,
@@ -21,8 +21,8 @@ interface ILeaderboardController {
 }
 
 export default class MatchesController implements ILeaderboardController {
-  private service: LeaderboardService;
-  constructor(service: LeaderboardService) {
+  private service: ILeaderboardService;
+  constructor(service: ILeaderboardService) {
     this.service = service;
   }
 
