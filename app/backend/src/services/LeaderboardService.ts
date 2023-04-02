@@ -1,6 +1,6 @@
 import MatchesModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
-import { ILeaderBoard, ILeaderboardService, IGetLeaderboardMatches } from '../interfaces';
+import { ILeaderBoard, ILeaderboardService } from '../interfaces';
 
 export default class LeaderboardService implements ILeaderboardService {
   public getMatches = async (id: number) => {
@@ -197,26 +197,6 @@ export default class LeaderboardService implements ILeaderboardService {
     return { message: this.sortedLeaderboard(calculate) };
   };
 
-  public sortedLeaderboard = (leaderboard: ILeaderBoard[]) => {
-    const sort = leaderboard.sort((a, b) => {
-      if (b.totalPoints !== a.totalPoints) {
-        return b.totalPoints - a.totalPoints;
-      }
-
-      if (b.totalVictories !== a.totalVictories) {
-        return b.totalVictories - a.totalVictories;
-      }
-
-      if (b.goalsBalance !== a.goalsBalance) {
-        return b.goalsBalance - a.goalsBalance;
-      }
-
-      return b.goalsFavor - a.goalsFavor;
-    });
-
-    return sort;
-  };
-
   public getGeneralLeaderboard = async () => {
     const ids = await this.getTeamsIds();
     const calculate = await Promise.all(ids.map(async (id) => {
@@ -235,5 +215,25 @@ export default class LeaderboardService implements ILeaderboardService {
       };
     }));
     return { message: this.sortedLeaderboard(calculate) };
+  };
+
+  public sortedLeaderboard = (leaderboard: ILeaderBoard[]) => {
+    const sort = leaderboard.sort((a, b) => {
+      if (b.totalPoints !== a.totalPoints) {
+        return b.totalPoints - a.totalPoints;
+      }
+
+      if (b.totalVictories !== a.totalVictories) {
+        return b.totalVictories - a.totalVictories;
+      }
+
+      if (b.goalsBalance !== a.goalsBalance) {
+        return b.goalsBalance - a.goalsBalance;
+      }
+
+      return b.goalsFavor - a.goalsFavor;
+    });
+
+    return sort;
   };
 }
