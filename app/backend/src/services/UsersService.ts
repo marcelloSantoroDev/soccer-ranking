@@ -1,12 +1,8 @@
 import * as bcrypt from 'bcryptjs';
 import UsersModel from '../database/models/UsersModel';
+import { IUsersService } from '../interfaces';
 
-// interface ILogin {
-//   email: string,
-//   password: string
-// }
-
-export default class UsersService {
+export default class UsersService implements IUsersService {
   public login = async (email: string, password: string) => {
     const user = await UsersModel.findOne({ where: { email } });
     if (!user) return { type: 'NOT_FOUND', message: 'Invalid email or password' };

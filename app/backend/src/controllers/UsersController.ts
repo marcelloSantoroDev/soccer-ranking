@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
 import TokenGenerator from '../utils/TokenGenerator';
-import UsersService from '../services/UsersService';
+import { IUsersController, IUsersService } from '../interfaces';
 
-export default class TeamsController {
-  private service: UsersService;
-  constructor(service: UsersService) {
+export default class TeamsController implements IUsersController {
+  private service: IUsersService;
+  constructor(service: IUsersService) {
     this.service = service;
   }
 

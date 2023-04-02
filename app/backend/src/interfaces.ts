@@ -21,6 +21,24 @@ export interface ITeamsService {
   getById(id: number): Promise<{ message: TeamsModel | null }>;
 }
 
+interface IUsersControllerMethodsReturns {
+  message?: string;
+  token?: string;
+  role?: string;
+}
+
+export interface IUsersController {
+  login(req: Request, res: Response): Promise<Response<IUsersControllerMethodsReturns>>;
+  role(req: Request, res: Response): Promise<Response<IUsersControllerMethodsReturns>>;
+}
+interface IUsersServiceMethodsReturns {
+  type: string | null;
+  message: string;
+}
+export interface IUsersService {
+  login(email: string, password: string): Promise<IUsersServiceMethodsReturns>;
+}
+
 export interface IUpdateMatchBody {
   id: number;
   homeTeamGoals: number;
@@ -170,4 +188,8 @@ export interface ILeaderboardController {
   getHomeLeaderboard(req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
   getAwayLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
   getGeneralLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
+}
+
+export interface ITokenGenerator {
+  generate(): string;
 }

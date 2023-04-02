@@ -1,7 +1,8 @@
 import * as jwt from 'jsonwebtoken';
 import { SignOptions } from 'jsonwebtoken';
+import { ITokenGenerator } from '../interfaces';
 
-export default class TokenGenerator {
+export default class TokenGenerator implements ITokenGenerator {
   private secret: string;
 
   private jwtConfig: SignOptions;
