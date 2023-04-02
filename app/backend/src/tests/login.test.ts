@@ -10,6 +10,7 @@ import UsersModel from '../database/models/UsersModel'
 import { app } from '../app';
 
 import { Response } from 'superagent';
+import { resolve } from 'path';
 
 chai.use(chaiHttp);
 
@@ -32,11 +33,19 @@ describe('testes para /login', function () {
     chaiHttpResponse = await chai.request(app).post('/login').send({ "email": "adminnnn@adminnn.com", "password": "secret_admin" });
     expect(chaiHttpResponse.status).to.be.equal(401)
   });
-  it('status 200 com token', async function () {
+  it('status 200 com token', async () => {
     chaiHttpResponse = await chai.request(app).post('/login').send({
   "email": "admin@admin.com",
   "password": "secret_admin"
 });
     expect(chaiHttpResponse.status).to.be.equal(200)
   });
+
+  it('status 200 para login/role', async function () {
+    chaiHttpResponse = await chai.request(app)
+    .get('/login/role')
+    .set('authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjgwMTkzNzcxLCJleHAiOjE2ODA3OTg1NzF9.Bjlng4EBVXA6SBoS0eChSDljr_401yH_tfEDcRvu_L8')
+
+    expect(chaiHttpResponse.status).to.be.equal(200);
+  })
 });

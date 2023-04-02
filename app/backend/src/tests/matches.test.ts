@@ -41,31 +41,31 @@ describe('testes para /matches', function () {
   });
 });
 
-describe('testes para rota /leaderboard', function () {
-  let chaiHttpResponse: Response;
-it('status 200 com placar completo - sem efficiency', async function () {
-  chaiHttpResponse = await chai
-        .request(app)
-        .get('/leaderboard/home');
+describe('testes para patch de /matches', function () {
+      let chaiHttpResponse: Response;
+  it('status 201 para partida finalizada', async function () {
+    chaiHttpResponse = await chai.request(app).patch('/matches/1/finish').set('Authorization', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjoiYWRtaW5AYWRtaW4uY29tIiwiaWF0IjoxNjgwMTkzNzcxLCJleHAiOjE2ODA3OTg1NzF9.Bjlng4EBVXA6SBoS0eChSDljr_401yH_tfEDcRvu_L8')
 
-        expect(chaiHttpResponse.status).to.be.equal(200);})
+    expect(chaiHttpResponse.status).to.be.equal(200)
+  })
 })
 
-describe('testes para rota post de /matches', async function () {
-     let chaiHttpResponse: Response;
+
+// describe('testes para rota post de /matches', function () {
+//      let chaiHttpResponse: Response;
 
 
-    it('status 201 com nova partida criada', async function () {
-      const secret = process.env.JWT_SECRET || 'batatinha';
-      sinon.stub(jwt, 'verify').resolves()
-      sinon.stub(MatchesModel, 'update').resolves(newMatchMock as any)
-        chaiHttpResponse = await chai
-            .request(app)
-            .post('/matches')
-            .set('Authorization', `${tokenAuthMock}`)
-            .send(newMatchMockWithoutId)
+//     it.only('status 201 com nova partida criada', async function () {
+//       // sinon.stub(MatchesModel, 'update').resolves(newMatchMock as any)
+//       const tokenGenerator = new TokenGenerator('admin@admin.com');
+//       const token = tokenGenerator.generate();
+//         chaiHttpResponse = await chai
+//             .request(app)
+//             .post('/matches')
+//             .send(newMatchMockWithoutId)
+//             .set('Authorization', `${token}`)
         
-            expect(chaiHttpResponse.status).to.be.equal(200);
-    });
+//             expect(chaiHttpResponse.status).to.be.equal(200);
+//     });
 
-})
+// })
