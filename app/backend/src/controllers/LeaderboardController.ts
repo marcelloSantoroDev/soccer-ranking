@@ -1,7 +1,26 @@
 import { Request, Response } from 'express';
 import LeaderboardService from '../services/LeaderboardService';
 
-export default class MatchesController {
+interface ILeaderboardBody {
+  'name': string,
+  'totalPoints': number,
+  'totalGames': number,
+  'totalVictories': number,
+  'totalDraws': number,
+  'totalLosses': number,
+  'goalsFavor': number,
+  'goalsOwn': number,
+  'goalsBalance': number,
+  'efficiency': number
+}
+
+interface ILeaderboardController {
+  getHomeLeaderboard(req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
+  getAwayLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
+  getGeneralLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
+}
+
+export default class MatchesController implements ILeaderboardController {
   private service: LeaderboardService;
   constructor(service: LeaderboardService) {
     this.service = service;
