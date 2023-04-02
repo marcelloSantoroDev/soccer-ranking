@@ -34,6 +34,45 @@ export interface IMatch {
   }
 }
 
+interface ICreatedMatch {
+  'id': number,
+  'homeTeamId': number,
+  'awayTeamId': number,
+  'homeTeamGoals': number,
+  'awayTeamGoals': number,
+  'inProgress': boolean
+}
+
+interface IMatchBody {
+  message: string | Error;
+}
+
+export interface IMatchesController {
+  getAll(req: Request, res: Response): Promise<Response<IMatch[]>>;
+  finish(req: Request, res: Response): Promise<Response<IMatchBody>>;
+  update(req: Request, res: Response): Promise<Response<IMatchBody>>;
+  create(req: Request, res: Response): Promise<Response<ICreatedMatch>>;
+}
+
+interface IMatchesMethodsReturns {
+  type?: string | undefined;
+  message: MatchesModel[] | MatchesModel | string;
+}
+
+interface IUpdate {
+  id: number;
+  homeTeamGoals: number;
+  awayTeamGoals: number;
+}
+
+export interface IMatchesService {
+  getAll(): Promise<IMatchesMethodsReturns>;
+  getInProgress(inProgress: string): Promise<IMatchesMethodsReturns>;
+  finish(id: number): Promise<IMatchesMethodsReturns>;
+  update(object: IUpdate): Promise<IMatchesMethodsReturns>;
+  create(object: ICreateMatchBody): Promise<IMatchesMethodsReturns>;
+}
+
 export interface IGetMatches {
   finishedHomeMatches: Promise<IMatch[]>;
   finishedAwayMatches: Promise<IMatch[]>
@@ -81,7 +120,7 @@ interface ITotalLosses {
   totalLosses: number;
 }
 
-interface ILeaderboardBody {
+export interface ILeaderboardBody {
   'name': string,
   'totalPoints': number,
   'totalGames': number,
@@ -110,6 +149,12 @@ export interface ILeaderboardService {
   getAwayLeaderboard(): Promise<{ message: ILeaderboardBody[] }>;
   sortedLeaderboard(leaderboard: ILeaderBoard[]): ILeaderboardBody[];
   getGeneralLeaderboard(): Promise<{ message: ILeaderboardBody[] }>;
+}
+
+export interface ILeaderboardController {
+  getHomeLeaderboard(req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
+  getAwayLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
+  getGeneralLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
 }
 
 export default interface ITeamsController {

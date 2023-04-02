@@ -1,8 +1,8 @@
 import MatchesModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
-import { IUpdateMatchBody, ICreateMatchBody } from '../interfaces';
+import { IUpdateMatchBody, ICreateMatchBody, IMatchesService } from '../interfaces';
 
-export default class MatchesService {
+export default class MatchesService implements IMatchesService {
   public getAll = async () => {
     const teams = await MatchesModel.findAll({
       include: [
@@ -58,3 +58,5 @@ export default class MatchesService {
     return { message: newMatch };
   };
 }
+
+// add type: null

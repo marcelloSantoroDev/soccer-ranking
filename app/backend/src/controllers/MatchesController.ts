@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
-import MatchesService from '../services/MatchesService';
+import { IMatchesController, IMatchesService } from '../interfaces';
 
-export default class MatchesController {
-  private service: MatchesService;
-  constructor(service: MatchesService) {
+export default class MatchesController implements IMatchesController {
+  private service: IMatchesService;
+  constructor(service: IMatchesService) {
     this.service = service;
   }
 

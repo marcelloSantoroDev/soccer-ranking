@@ -1,24 +1,5 @@
 import { Request, Response } from 'express';
-import { ILeaderboardService } from '../interfaces';
-
-interface ILeaderboardBody {
-  'name': string,
-  'totalPoints': number,
-  'totalGames': number,
-  'totalVictories': number,
-  'totalDraws': number,
-  'totalLosses': number,
-  'goalsFavor': number,
-  'goalsOwn': number,
-  'goalsBalance': number,
-  'efficiency': number
-}
-
-interface ILeaderboardController {
-  getHomeLeaderboard(req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
-  getAwayLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
-  getGeneralLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
-}
+import { ILeaderboardService, ILeaderboardController } from '../interfaces';
 
 export default class MatchesController implements ILeaderboardController {
   private service: ILeaderboardService;
