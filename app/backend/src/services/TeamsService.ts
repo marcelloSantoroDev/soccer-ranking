@@ -1,6 +1,7 @@
 import TeamsModel from '../database/models/TeamsModel';
+import { ITeamsService } from '../interfaces';
 
-export default class TeamsService {
+export default class TeamsService implements ITeamsService {
   public getAll = async () => {
     const teams = await TeamsModel.findAll();
     return { message: teams };

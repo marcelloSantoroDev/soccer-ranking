@@ -1,9 +1,24 @@
 import { Request, Response } from 'express';
 import MatchesModel from './database/models/MatchesModel';
+import TeamsModel from './database/models/TeamsModel';
 
 export interface IGetAllTeams {
   id: number;
   teamName: string;
+}
+
+export interface ITeamsController {
+  getAll(req: Request, res: Response): Promise<Response<IGetAllTeams[]>>;
+  getById(req: Request, res: Response): Promise<Response<IGetAllTeams>>;
+}
+
+interface ITeamsServiceMethodsReturns {
+  message: TeamsModel[]
+}
+
+export interface ITeamsService {
+  getAll(): Promise<ITeamsServiceMethodsReturns>;
+  getById(id: number): Promise<{ message: TeamsModel | null }>;
 }
 
 export interface IUpdateMatchBody {
@@ -155,8 +170,4 @@ export interface ILeaderboardController {
   getHomeLeaderboard(req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
   getAwayLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
   getGeneralLeaderboard(_req: Request, res: Response): Promise<Response<ILeaderboardBody[]>>;
-}
-
-export default interface ITeamsController {
-  getAll(req: Request, res: Response): Response<IGetAllTeams[]>
 }
