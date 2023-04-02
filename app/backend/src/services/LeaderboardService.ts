@@ -1,6 +1,6 @@
 import MatchesModel from '../database/models/MatchesModel';
 import TeamsModel from '../database/models/TeamsModel';
-import { ILeaderBoard, ILeaderboardService } from '../interfaces';
+import { ILeaderBoard, ILeaderboardService, IGetLeaderboardMatches } from '../interfaces';
 
 export default class LeaderboardService implements ILeaderboardService {
   public getMatches = async (id: number) => {

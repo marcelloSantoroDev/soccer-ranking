@@ -106,9 +106,9 @@ export interface IMatchesService {
   create(object: ICreateMatchBody): Promise<IMatchesMethodsReturns>;
 }
 
-export interface IGetMatches {
-  finishedHomeMatches: Promise<IMatch[]>;
-  finishedAwayMatches: Promise<IMatch[]>
+export interface IGetLeaderboardMatches {
+  finishedHomeMatches: Promise<MatchesModel[]>;
+  finishedAwayMatches: Promise<MatchesModel[]>
 }
 
 export interface ILeaderBoard {
