@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { ILeaderboardService, ILeaderboardController } from '../interfaces';
+import { ILeaderboardService } from '../interfaces';
 
-export default class MatchesController implements ILeaderboardController {
+export default class MatchesController {
   private service: ILeaderboardService;
   constructor(service: ILeaderboardService) {
     this.service = service;

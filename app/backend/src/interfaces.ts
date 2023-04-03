@@ -168,20 +168,20 @@ export interface ILeaderboardBody {
 
 export interface ILeaderboardService {
   getMatches(id: number): Promise<IGetAllMatches>;
-  totalPoints(id: number): Promise<ITotalPoints>;
-  totalGames(id: number): Promise<ITotalGames>;
-  totalVictories(id: number): Promise<ITotalVictories>;
-  totalDraws(id: number, where: string): Promise<number>;
-  totalGeneralDraws(id: number): Promise<number>;
-  totalLosses(id: number): Promise<ITotalLosses>;
-  totalGoals(id: number, type: string, where: string): Promise<number>;
-  totalGoalsFavor(id: number): Promise<number>;
-  totalGoalsAgainst(id: number): Promise<number>;
+  totalPoints(id: number, matches: IGetMatches): ITotalPoints;
+  totalGames(id: number, matches: IGetMatches): ITotalGames;
+  totalVictories(id: number, matches: IGetMatches): ITotalVictories;
+  totalDraws(id: number, where: string, matches: IGetMatches): number;
+  totalGeneralDraws(id: number, matches: IGetMatches): number;
+  totalLosses(id: number, matches: IGetMatches): ITotalLosses;
+  totalGoals(id: number, type: string, where: string, matches: IGetMatches): number;
+  totalGoalsFavor(id: number, matches: IGetMatches): number;
+  totalGoalsAgainst(id: number, matches: IGetMatches): number;
   getTeamsIds(): Promise<number[]>;
   getHomeLeaderboard(): Promise<{ message: ILeaderboardBody[] }>;
   getAwayLeaderboard(): Promise<{ message: ILeaderboardBody[] }>;
-  sortedLeaderboard(leaderboard: ILeaderBoard[]): ILeaderboardBody[];
   getGeneralLeaderboard(): Promise<{ message: ILeaderboardBody[] }>;
+  sortLeaderboard(leaderboard: ILeaderBoard[]): ILeaderboardBody[];
 }
 
 export interface ILeaderboardController {
@@ -192,4 +192,9 @@ export interface ILeaderboardController {
 
 export interface ITokenGenerator {
   generate(): string;
+}
+
+export interface IGetMatches {
+  finishedHomeMatches: MatchesModel[];
+  finishedAwayMatches: MatchesModel[];
 }
