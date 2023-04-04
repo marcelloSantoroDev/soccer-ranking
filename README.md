@@ -1,13 +1,21 @@
-# :construction: README customizado em construção ! :construction:
-<!-- Olá, Tryber!
-Esse é apenas um arquivo inicial para o README do seu projeto no qual você pode customizar e reutilizar todas as vezes que for executar o trybe-publisher.
+# Soccer Ranking
 
-Para deixá-lo com a sua cara, basta alterar o seguinte arquivo da sua máquina: ~/.student-repo-publisher/custom/_NEW_README.md
+Aplicação full stack para ranking de campeonato de futebol.
 
-É essencial que você preencha esse documento por conta própria, ok?
-Não deixe de usar nossas dicas de escrita de README de projetos, e deixe sua criatividade brilhar!
-:warning: IMPORTANTE: você precisa deixar nítido:
-- quais arquivos/pastas foram desenvolvidos por você; 
-- quais arquivos/pastas foram desenvolvidos por outra pessoa estudante;
-- quais arquivos/pastas foram desenvolvidos pela Trybe.
--->
+## Descrição
+
+Neste projeto, desenvolvi o back-end de uma aplicação que gerencia um campeonato de futebol, sendo possível:
+
+- Fazer login;
+- Listar times e partidas;
+- Criar uma nova partida;
+- Finalizar uma partida;
+- Atualizar dados de uma partida e visualizar o placar do campeonato.
+
+### Linguagens, bibliotecas e ferramentas utilizadas
+
+- Typescript;
+- POO;
+- Node.js
+- Arquitetura em camadas;
+- Express;
